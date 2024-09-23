@@ -6,11 +6,11 @@ use Livewire\Attributes\On;
 new class extends Component {
     public \Illuminate\Database\Eloquent\Collection $motos;
 
+    public ?\App\Models\Moto $editing = null;
+
     public function mount(): void
     {
         $this->getMotos();
-
-
     }
 
     #[On('moto-created')]
@@ -19,6 +19,31 @@ new class extends Component {
         $this->motos = \App\Models\Moto::with('user')
             ->latest()
             ->get();
+    }
+
+    #[On('moto-edit-canceled')]
+    #[On('moto-updated')]
+    public function disableEditing(): void
+    {
+        $this->editing = null;
+
+        $this->getMotos();
+    }
+
+    public function edit(\App\Models\Moto $moto): void
+    {
+        $this->editing = $moto;
+       // dd($this->edititng , $moto);
+        $this->getMotos();
+    }
+
+    public function delete(\App\Models\Moto $moto): void
+    {
+        $this->authorize('delete', $moto);
+
+        $moto->delete();
+
+        $this->getMotos();
     }
 
 
@@ -36,9 +61,39 @@ new class extends Component {
                         <div>
                             <span class="text-gray-800">{{ $moto->user->name }}</span>
                             <small class="ml-2 text-sm text-gray-600">{{ $moto->created_at->format('j M Y, g:i a') }}</small>
+
+                            @unless ($moto->created_at->eq($moto->updated_at))
+                                <small class="text-sm text-gray-600"> &middot; {{ __('edited') }}</small>
+                            @endunless
+
                         </div>
+                        @if ($moto->user->is(auth()->user()))
+                            <x-dropdown>
+                                <x-slot name="trigger">
+                                    <button>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                        </svg>
+                                    </button>
+                                </x-slot>
+                                <x-slot name="content">
+                                    <x-dropdown-link wire:click="edit({{ $moto->id }})">
+                                        {{ __('Edit') }}
+                                    </x-dropdown-link>
+                                    <x-dropdown-link wire:click="delete({{ $moto->id }})" wire:confirm="Estas seguro de borrar esta Moto?">
+                                    {{ __('Delete') }}
+                                    </x-dropdown-link>
+                                </x-slot>
+                            </x-dropdown>
+                        @endif
                     </div>
-                    <p class="mt-4 text-lg text-gray-900">{{ $moto->matricula }}</p>
+
+                    @if ($moto->is($editing))
+                        <livewire:motos.edit :moto="$moto" :key="$moto->id" />
+                    @else
+
+                        <p class="mt-4 text-lg text-gray-900">{{ $moto->matricula }}</p>
+                    @endif
                 </div>
             </div>
         @endforeach
