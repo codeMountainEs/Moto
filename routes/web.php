@@ -11,5 +11,9 @@ Route::view('dashboard', 'dashboard')
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
+Route::get('motos', [\App\Http\Controllers\MotoController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('motos');
+
 
 require __DIR__.'/auth.php';

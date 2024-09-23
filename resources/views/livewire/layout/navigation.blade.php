@@ -33,6 +33,9 @@ new class extends Component
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('motos')" :active="request()->routeIs('motos')" wire:navigate>
+                        {{ __('Motos') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -84,6 +87,9 @@ new class extends Component
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('motos')" :active="request()->routeIs('motos')" wire:navigate>
+                {{ __('Motos Mobile') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -103,6 +109,7 @@ new class extends Component
                     <x-responsive-nav-link>
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
+
                 </button>
             </div>
         </div>
