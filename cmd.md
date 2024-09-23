@@ -40,3 +40,13 @@ php artisan make:listener SendMotoCreatedNotifications --event=MotoCreated
 # Dashboard 
 
 php artisan make:volt layout/matricula --class
+
+# FILAMENT 
+composer require filament/filament:"^3.2" -W
+
+php artisan filament:install --panels
+
+
+* TRANSLATIONS
+  php artisan vendor:publish --tag=filament-panels-translations
+
