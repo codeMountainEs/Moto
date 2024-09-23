@@ -17,32 +17,13 @@ new class extends Component {
 
         $this->matricula = '';
 
+        // mediante eventos livewire actulizamos lista de motos
 
-    }
-
-    public function buscarMatricula(): String
-    {
-        $validated = $this->validate();
-
-
-       //$this->matricula = \App\Models\Moto::where('matricula',$validated['matricula'])->firstOrString;
-
-
-
-        $moto = \App\Models\Moto::where('matricula', $validated['matricula'])->first();
-
-        if ($moto) {
-           return $moto;
-
-        } else {
-            return redirect()->back()->with('error', 'Matrícula no encontrada');
-        }
-
-
-
+        $this->dispatch('moto-created');
 
 
     }
+
 
 }; ?>
 
