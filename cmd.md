@@ -50,3 +50,19 @@ php artisan filament:install --panels
 * TRANSLATIONS
   php artisan vendor:publish --tag=filament-panels-translations
 
+
+# MOTOS, MARCAS Y MODELOS
+
+php artisan make:model Marca -m
+php artisan make:model ModeloMoto -m
+php artisan make:seeder MarcasSeeder
+
+
+#filament panel
+
+php artisan make:filament-resource Marca
+php artisan make:filament-resource Moto
+
+
+* relationManager 
+php artisan make:filament-relation-manager MarcaResource ModeloMotos nombre

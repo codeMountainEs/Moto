@@ -11,16 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('motos', function (Blueprint $table) {
+        Schema::create('modelo_motos', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('matricula')->unique();
+            $table->string('nombre');
             $table->foreignId('marca_id')->constrained('marcas')->onDelete('cascade');
-            $table->foreignId('modelo_moto_id')->constrained('modelo_motos')->onDelete('cascade');
-            $table->integer('año');
-            $table->integer('km');
-            $table->text('observaciones')->nullable();
             $table->timestamps();
         });
     }
@@ -30,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('motos');
+        Schema::dropIfExists('modelo_motos');
     }
-
-
 };

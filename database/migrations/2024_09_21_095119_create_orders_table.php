@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('moto_id')->constrained('motos')->onDelete('cascade');
+            $table->date('fecha_entrada');
+            $table->date('fecha_salida')->nullable();
+            $table->text('descripcion');
+            $table->enum('estado', ['pendiente', 'en_proceso', 'finalizada']);
+            $table->decimal('costo_total', 10, 2);
+
             $table->timestamps();
         });
     }
